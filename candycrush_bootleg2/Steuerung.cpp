@@ -119,7 +119,8 @@ bool Steuerung::update()
 		}
 	}
 
-	feld.drawField(bubs,score);
+	//gui.updateView(bubs);
+	//feld.drawField(bubs,score);
 
 	//Drops Bubbles
 	for(int x=0; x<12;x++)
@@ -131,7 +132,8 @@ bool Steuerung::update()
 			delete static_cast<Bubble*>(bubs[x][0]);
 			createBubble(x, 0,"");
 			fall(x);
-			feld.drawField(bubs, score);
+			//gui.updateView(bubs);
+			//feld.drawField(bubs, score);
 		}
 	}
 	

@@ -13,12 +13,13 @@ int main(int argc, char *argv[])
 	Steuerung strg;
     
     strg.gui.show();
-	strg.gui.update(strg.bubs);
-    return a.exec();
+	//strg.gui.onaddWidget(strg.bubs);
+	//strg.gui.update(strg.bubs);
+	return a.exec();
 
     
     bool clean = false;
-    //strg.feld.drawField(strg.bubs, 0);
+    strg.feld.drawField(strg.bubs, 0);
     int zug = 0; // temporary
 
 	while (1)
@@ -34,18 +35,18 @@ int main(int argc, char *argv[])
 			strg.update();
 			zug++;
 		}
-		std::cout << "X Variable 1 eingeben!";
-		std::cin >> x;
+		//std::cout << "X Variable 1 eingeben!";
+		//std::cin >> x;
 
-		std::cout << "Y Variable 1 eingeben!";
-		std::cin >> y;
+		//std::cout << "Y Variable 1 eingeben!";
+		//std::cin >> y;
 
 		if (static_cast<Bubble*>(strg.bubs[x][y])->getcol() != "purple")
 		{
 
-			std::cout << "Where to move bubble? (L=left;R=right;U=up;D=down)";
+			//std::cout << "Where to move bubble? (L=left;R=right;U=up;D=down)";
 
-			std::cin >> input;
+			//std::cin >> input;
 		}
 
 
@@ -55,6 +56,6 @@ int main(int argc, char *argv[])
 
 		strg.analyze();
 	}
-
+	
 	return 0;
 }
