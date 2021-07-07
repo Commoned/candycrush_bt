@@ -17,21 +17,26 @@ public:
     
     //void update(void* bub[12][12]);
 
-    void drawCircle( QPainter* painter, std::string col, int offsetX, int offsetY);
+    
     void onaddWidget(void* bub, int x, int y);
 
     void onRemoveWidget();
-   
+
+    void mainLoop();
     void updateView(void* bubs[12][12]);
+
+    int clickedX=100;
+    int clickedY=100;
+
+    
 private slots:
-  //  void drawCircle();
+  
     
 
 private:
     Ui::GuiClass ui;
-    
-    void paintEvent(QPaintEvent* e);
-    //void drawCircle(QPainter* painter, std::string col, int offsetX, int offsetY);
+    //Steuerung* strg;
+    QEventLoop loop;
 
     
 };

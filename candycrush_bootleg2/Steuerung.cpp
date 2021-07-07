@@ -4,14 +4,15 @@
 #include <random>
 #include <string>
 #include <chrono>
+
 using std::mt19937;
 
 using std::string;
 using std::vector;
 
-Steuerung::Steuerung()
+Steuerung::Steuerung(Gui* ngui)
 {	
-	
+	gui = ngui;
 	// Steuerung creates Bubbles for array on creation
 	score = 0;
 	for (int y = 0; y < 12; y++)
@@ -54,7 +55,7 @@ void Steuerung::createBubble(int x, int y, string color)
 	else {												//creates simple bubble
 		bubs[x][y] = new Bubble(x, y, color);
 	}
-	gui.onaddWidget(bubs[x][y], x, y);
+	gui->onaddWidget(bubs[x][y], x, y);
 }
 
 /// <summary>
@@ -121,9 +122,9 @@ bool Steuerung::update()
 		}
 	}
 
-	gui.updateView(bubs);
+	gui->updateView(bubs);
 	//feld.drawField(bubs,score);
-	gui.repaint();
+	
 
 	//Drops Bubbles
 	for(int x=0; x<12;x++)
@@ -135,7 +136,7 @@ bool Steuerung::update()
 			delete static_cast<Bubble*>(bubs[x][0]);
 			createBubble(x, 0,"");
 			fall(x);
-			//gui.updateView(bubs);
+			//gui->updateView(bubs);
 			//feld.drawField(bubs, score);
 		}
 	}

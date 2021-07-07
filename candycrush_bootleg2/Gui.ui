@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>864</width>
-    <height>906</height>
+    <width>734</width>
+    <height>908</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>861</width>
-      <height>986</height>
+      <x>9</x>
+      <y>14</y>
+      <width>611</width>
+      <height>601</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -50,45 +50,25 @@
     <property name="lineWidth">
      <number>0</number>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <property name="sizeConstraint">
-      <enum>QLayout::SetNoConstraint</enum>
-     </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-    </layout>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>610</y>
-      <width>251</width>
+      <y>620</y>
+      <width>75</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Start</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>610</y>
+      <x>90</x>
+      <y>620</y>
       <width>271</width>
       <height>21</height>
      </rect>
@@ -103,7 +83,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>864</width>
+     <width>734</width>
      <height>22</height>
     </rect>
    </property>

@@ -23,8 +23,9 @@ public:
 	void *bubs[12][12];
 	string compArray[12][12];
 	Feld feld;
-	Gui gui;
-	Steuerung();
+	Gui *gui;
+	Steuerung(Gui* gui);
+
 	void createBubble(int x, int y,string color = "white");
 	bool update();
 	bool makemove(int x, int y, char input);
