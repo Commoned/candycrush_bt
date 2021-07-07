@@ -2,12 +2,15 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QLabel>
+#include <qevent.h>
+#include <qmimedata.h>
+#include <qdrag.h>
 
 Gui::Gui(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-   
+    
     
 
     //QObject::connect(ui.pushButton, &QPushButton::clicked, this, &Gui::onaddWidget);
@@ -44,8 +47,9 @@ void Gui::drawCircle(QPainter *painter,std::string col ,int offsetX, int offsetY
 }
 
 
-void Gui::onaddWidget(void* bub[12][12])
+void Gui::onaddWidget(void* bub, int x , int y)
 {
+    /*
     QVBoxLayout* layout = qobject_cast<QVBoxLayout*>(ui.frame->layout());
 
     QPixmap pixmap;
@@ -99,8 +103,47 @@ void Gui::onaddWidget(void* bub[12][12])
             //QObject::connect(button, &QPushButton::clicked,this, &Gui::onRemoveWidget);
         }
         layout->insertLayout(0, hLayout);
-
+        
     }
+    */
+    QPushButton* button = new QPushButton("",ui.frame);
+    QPixmap pixmap;
+    std::string col;
+
+    col = static_cast<Bubble*>(bub)->getcol();
+
+    if (col == "green")
+    {
+        pixmap.load("green.jpg");
+    }
+    if (col == "yellow")
+    {
+        pixmap.load("yellow.jpg");
+    }
+    if (col == "red")
+    {
+        pixmap.load("red.jpg");
+    }
+    if (col == "blue")
+    {
+        pixmap.load("blue.jpg");
+    }
+    if (col == "purple")
+    {
+        pixmap.load("special.jpg");
+    }
+    QIcon ButtonIcon(pixmap);
+
+    button->setIcon(ButtonIcon);
+    button->setStyleSheet("border:2px solid #ffffff;");
+    button->setFixedSize(QSize(48, 48));
+    button->setIconSize(pixmap.rect().size());
+
+    button->move(QPoint(x*48,y*48));
+    button->show();
+
+    QObject::connect(button, &QPushButton::clicked, this, &Gui::onRemoveWidget);
+
 }
 
 
@@ -110,57 +153,24 @@ void Gui::onRemoveWidget()
     
 
     QLabel* label = ui.label;
-    QLabel* label2 = ui.label_2;
+   
     
     QFrame* frame = ui.frame;
 
     int kek = frame->frameGeometry().x();
-    label->setText(QString::number(button->frameGeometry().x()-kek));
+    label->setText(QString::fromStdString("Click Next Bubble!"));
     //label->setText(QString::number(button->size().width()));
     //label2->setText(QString::number(button->size().height()));
+
+
+
 }
 
 
 void Gui::updateView(void* bubs[12][12])
 {
-    QPixmap pixmap;
+    QObjectList list = ui.frame->children();
 
-    for (int y = 0; y < 12; y++)
-    {
-        for (int x = 0; x < 12; x++)
-        {
-            std::string col = static_cast<Bubble*>(bubs[x][y])->getcol();
-
-            QWidget* widget = ui.frame->layout()->itemAt(x+y)->widget();
-            if (widget != NULL)
-            {
-                QPushButton* button = static_cast<QPushButton*>(widget);
-
-                if (col == "green")
-                {
-                    pixmap.load("green.jpg");
-                }
-                if (col == "yellow")
-                {
-                    pixmap.load("yellow.jpg");
-                }
-                if (col == "red")
-                {
-                    pixmap.load("red.jpg");
-                }
-                if (col == "blue")
-                {
-                    pixmap.load("blue.jpg");
-                }
-                if (col == "purple")
-                {
-                    pixmap.load("special.jpg");
-                }
-
-                button->setIcon(pixmap);
-            }
-        }
-    }
-
+    ui.label->setText(QString::number(list.count()));
 }
 

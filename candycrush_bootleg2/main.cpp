@@ -13,13 +13,14 @@ int main(int argc, char *argv[])
 	Steuerung strg;
     
     strg.gui.show();
-	//strg.gui.onaddWidget(strg.bubs);
+	//strg.gui.onaddWidget(strg.bubs[0][0],0,0);
 	//strg.gui.update(strg.bubs);
-	return a.exec();
-
+	//a.exec();
+	strg.gui.updateView(strg.bubs);
+	a.processEvents();
     
     bool clean = false;
-    strg.feld.drawField(strg.bubs, 0);
+    //strg.feld.drawField(strg.bubs, 0);
     int zug = 0; // temporary
 
 	while (1)

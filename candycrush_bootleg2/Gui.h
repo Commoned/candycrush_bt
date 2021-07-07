@@ -18,9 +18,10 @@ public:
     //void update(void* bub[12][12]);
 
     void drawCircle( QPainter* painter, std::string col, int offsetX, int offsetY);
-    void onaddWidget(void* bub[12][12]);
+    void onaddWidget(void* bub, int x, int y);
 
     void onRemoveWidget();
+   
     void updateView(void* bubs[12][12]);
 private slots:
   //  void drawCircle();

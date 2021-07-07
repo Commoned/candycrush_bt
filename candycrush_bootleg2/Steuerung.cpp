@@ -18,7 +18,8 @@ Steuerung::Steuerung()
 	{
 		for (int x = 0; x < 12; x++)
 		{
-			createBubble(x,y,"b"); // b for beginning to place random special bubbles
+			createBubble(x, y, "b"); // b for beginning to place random special bubbles
+			
 		}
 	}
 }
@@ -53,6 +54,7 @@ void Steuerung::createBubble(int x, int y, string color)
 	else {												//creates simple bubble
 		bubs[x][y] = new Bubble(x, y, color);
 	}
+	gui.onaddWidget(bubs[x][y], x, y);
 }
 
 /// <summary>
@@ -119,8 +121,9 @@ bool Steuerung::update()
 		}
 	}
 
-	//gui.updateView(bubs);
+	gui.updateView(bubs);
 	//feld.drawField(bubs,score);
+	gui.repaint();
 
 	//Drops Bubbles
 	for(int x=0; x<12;x++)
