@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Feld.h"
 #include <qthread.h>
-#include "Steuerung.h"
+
 
 int x, y;
 char input;

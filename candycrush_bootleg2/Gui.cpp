@@ -6,66 +6,108 @@
 #include <qmimedata.h>
 #include <qdrag.h>
 #include "Steuerung.h"
-
+#include <qtimer.h>
+#include <qcursor.h>
 
 
 Gui::Gui(QWidget *parent)
     : QMainWindow(parent)
 {
+    
     ui.setupUi(this);
-   
+    
+    timerTick = new QTimer(this);
+    timer = new QTimer(this);
+
+    timerTick->start(1000);
+
+    
+
     QObject::connect(ui.startButton, &QPushButton::clicked, this, &Gui::mainLoop);
-   
+    
+    connect(timer, &QTimer::timeout, this, &Gui::endGame);
+}
+
+
+void Gui::updateTimer()
+{
+    //ui.timeLabel->setText(QString::number(timer->remainingTime() ));
+    
+    double lcdValue = std::double_t(timer->remainingTime() / 1000);
+    static_cast<Steuerung*>(strg)->setremTime(lcdValue);
+    ui.lcdNumber->display(lcdValue);
+    //updateView(static_cast<Steuerung*>(strg)->bubs);
+}
+
+void Gui::endGame()
+{
+    ui.frame->setDisabled(true);
+    timer->stop();
+    init = true;
+    zug = 0;
+    ui.startButton->setDisabled(false);
 }
 
 void Gui::mainLoop()
 {
-    Steuerung strg(this);
-   
-    updateView(strg.bubs);
-    
-    
+    if (init == true)
+    {
+        strg = new Steuerung(this);
+        init = false;
+        connect(timerTick, &QTimer::timeout, this, &Gui::updateTimer);
+        ui.startButton->setDisabled(true);
+        ui.frame->setDisabled(false);
+    }
     int x, y;
-    char input;
+
 
     bool clean = false;
-    
-    int zug = 0; // temporary
-
-    clean = false;
-    while (clean == false)
-    {
-        clean = strg.update();
-            
-    }
-    if (zug == 0)
-    {
-        strg.setscore(0);
-        strg.update();
-        zug++;
-    }
 
     
+    timerTick->stop();
+    ui.centralWidget->setCursor(Qt::CursorShape::WaitCursor);
+    if(!click)
+    {
+        clean = false;
+        while (clean == false)
+        {
+            clean = static_cast<Steuerung*>(strg)->update();
+
+        }
+        if (zug == 0)
+        {
+            static_cast<Steuerung*>(strg)->setscore(0);
+            static_cast<Steuerung*>(strg)->setremTime(20);
+            zug++;
+        }
+        static_cast<Steuerung*>(strg)->update();
+    }
+
+    if (static_cast<Bubble*>(static_cast<Steuerung*>(strg)->bubs[clickedX][clickedY])->getcol() != "purple" && pressed)
+    {
+        pressed = false;
+    }
     
+    if (clickedX == clickedXM && clickedY - 1 == clickedYM ) { input = 'U'; }
+    if (clickedX == clickedXM && clickedY + 1 == clickedYM) { input = 'D'; }
+    if (clickedX - 1 == clickedXM   && clickedY == clickedYM) { input = 'L'; }
+    if (clickedX + 1 == clickedXM && clickedY == clickedYM) { input = 'R'; }
+    
+    if (static_cast<Steuerung*>(strg)->checkValidInput(clickedX, clickedY, input) == 1 && pressedMove || static_cast<Bubble*>(static_cast<Steuerung*>(strg)->bubs[clickedX][clickedY])->getcol() == "purple" && click) {
+        static_cast<Steuerung*>(strg)->makemove(clickedX, clickedY, input);
+        click = false;
+        pressedMove = false;
         
-    if (static_cast<Bubble*>(strg.bubs[clickedX][clickedY])->getcol() != "purple" && clickedX<12 && clickedY <12)
-    {
-        qDebug("KWK");
+        mainLoop();
     }
-
-    /*
-    if (static_cast<Bubble*>(strg.bubs[clickedX][clickedY])->getcol() != "purple")
-    {
-            
-    }
-        
-
-    if (strg.checkValidInput(x, y, input) == 1 || static_cast<Bubble*>(strg.bubs[x][y])->getcol() == "purple") {
-        strg.makemove(x, y, input);
-    }
-    */
-    strg.analyze();
+    
+    input = 'X';
+    
+    static_cast<Steuerung*>(strg)->analyze();
    
+    timer->start(static_cast<Steuerung*>(strg)->getremTime() * 1000);
+    timerTick->start(10);
+    ui.centralWidget->setCursor(Qt::CursorShape::ArrowCursor);
 }
 
 
@@ -122,24 +164,25 @@ void Gui::onaddWidget(void* bub, int x , int y)
 void Gui::onRemoveWidget()
 {
     QPushButton* button = qobject_cast<QPushButton*>(sender());
-    
 
-    QLabel* label = ui.label;
-   
-    
-    QFrame* frame = ui.frame;
+    if (!click)
+    {
+        clickedX = (button->geometry().x() - 5) / 48;
+        clickedY = (button->geometry().y() - 5) / 48;
+        click = true;
+        pressedMove = false;
+    }
+    else {
+        clickedXM = (button->geometry().x() - 5) / 48;
+        clickedYM = (button->geometry().y() - 5) / 48;
+        pressedMove = true;
+        click = false;
+    }
 
-    int kek = frame->frameGeometry().x();
-    label->setText(QString::number((button->geometry().x()-5)/48)+QString::fromStdString("")+ QString::number((button->geometry().y()-5)/48));
-    //label->setText(QString::number(button->size().width()));
-    //label2->setText(QString::number(button->size().height()));
-    
-    clickedX = (button->geometry().x() - 5) / 48;
-    clickedY = (button->geometry().y() - 5) / 48;
+    pressed = true;
     
     
-    
-    
+    mainLoop();
 }
 
 
@@ -181,7 +224,23 @@ void Gui::updateView(void* bubs[12][12])
             }
             if (col == "purple")
             {
-                pixmap.load("special.jpg");
+                int abil;
+                abil = static_cast<Special*>(bubs[x][y])->getability();
+                switch (abil)
+                {
+                case 1:pixmap.load("special.jpg");
+                    break;
+                case 2:pixmap.load("specialHbomb.jpg");
+                    break;
+                case 3:pixmap.load("specialVbomb.jpg");
+                    break;
+                case 4:pixmap.load("special.jpg");
+                    break;
+
+                default:pixmap.load("special.jpg");
+                    break;
+                }
+                
             }
             QIcon ButtonIcon(pixmap);
 
@@ -189,12 +248,15 @@ void Gui::updateView(void* bubs[12][12])
             button->setStyleSheet("border:2px solid #ffffff;");
             button->setFixedSize(QSize(48, 48));
             button->setIconSize(pixmap.rect().size());
+            button->setCursor(Qt::CursorShape::PointingHandCursor);
 
             button->move(QPoint((x * 48)+5, (y * 48)+5));
 
             QObject::connect(button, &QPushButton::clicked, this, &Gui::onRemoveWidget);
 
             button->show();
+
+            ui.scoreLabel->setText(QString::number(static_cast<Steuerung*>(strg)->getScore())); 
             
             QCoreApplication::processEvents();
         }

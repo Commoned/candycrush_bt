@@ -10,6 +10,8 @@ using std::mt19937;
 using std::string;
 using std::vector;
 
+
+
 Steuerung::Steuerung(Gui* ngui)
 {	
 	gui = ngui;
@@ -24,6 +26,7 @@ Steuerung::Steuerung(Gui* ngui)
 		}
 	}
 }
+
 
 /// <summary>
 /// Creates new Bubbles
@@ -118,6 +121,7 @@ bool Steuerung::update()
 				static_cast<Bubble*>(bubs[x][y])->setwasmoved(false);
 
 				score++;
+				remTime = remTime + 0.2;
 			}
 		}
 	}
@@ -180,6 +184,11 @@ int Steuerung::checkValidInput(int x, int y, char direction)
 		}
 	}
 
+	if (static_cast<Bubble*>(bubs[x][y])->getcol() == "purple")
+	{
+		return 1;
+	}
+
 	//Check if input vars are in field
 	if (x < 0 || y < 0 || x > 11 || y > 11) {
 		return 0;
@@ -237,6 +246,21 @@ int Steuerung::checkValidInput(int x, int y, char direction)
 	}
 
 	return 0;
+}
+
+int Steuerung::getScore()
+{
+	return score;
+}
+
+double Steuerung::getremTime()
+{
+	return remTime;
+}
+
+void Steuerung::setremTime(double time)
+{
+	remTime = time;
 }
 
 /// <summary>
@@ -345,6 +369,7 @@ bool Steuerung::makemove(int x, int y, char input)
 			static_cast<Bubble*>(bubs[x][y + 1])->setwasmoved(true);
 			break;
 		default:
+			static_cast<Bubble*>(bubs[x][y])->setwasmoved(false);
 			break;
 		}
 		return true;
@@ -482,21 +507,23 @@ void Steuerung::fall(int col)
 
 bool Steuerung::checkRow(int y) {
 	string tempColorKepper = compArray[0][y];				//Set initial Color from Row
-	int rowCounter = 0;										//Set initial Rowcounters
+	int rowCounter = 1;										//Set initial Rowcounters
 	int maxRowCounter = 0;
 	for (int x = 1; x < 12; x++)
 	{
+		tempColorKepper = compArray[x-1][y];
 		if (tempColorKepper == compArray[x][y]) {			//If Purple should be included  "|| compArray[x][y] == "purple""
 			rowCounter++;
 		}
-		if (tempColorKepper != compArray[x][y]) {
+		if (tempColorKepper != compArray[x][y] || rowCounter>=3) {
 			if (rowCounter > maxRowCounter) {
 				maxRowCounter = rowCounter;
-				rowCounter = 0;
+				rowCounter = 1;
 			}
-			tempColorKepper = compArray[x][y];				//Change tempColorKeeper to move on
+						//Change tempColorKeeper to move on
 		}
 	}
+	
 	if (maxRowCounter >= 3) {
 		maxRowCounter = 0;
 		rowCounter = 0;
@@ -509,21 +536,23 @@ bool Steuerung::checkRow(int y) {
 
 bool Steuerung::checkColumn(int x) {
 	string tempColorKepper = compArray[x][0];				//Set initial Color from Row
-	int columnCounter = 0;									//Set initial Columncounters
+	int columnCounter = 1;									//Set initial Columncounters
 	int maxColumnCounter = 0;
 	for (int y = 1; y < 12; y++)
 	{
-		if (tempColorKepper == compArray[x][y] ) {			//If purple should be included "|| compArray[x][y] == "purple""
+		tempColorKepper = compArray[x][y-1];
+		if (tempColorKepper == compArray[x][y] || columnCounter>=3) {			//If purple should be included "|| compArray[x][y] == "purple""
 			columnCounter++;
 		}
 		if (tempColorKepper != compArray[x][y]) {
 			if (columnCounter > maxColumnCounter) {
 				maxColumnCounter = columnCounter;
-				columnCounter = 0;
+				columnCounter = 1;
 			}
-			tempColorKepper = compArray[x][y];				//Change tempColorKeeper to move on
+						//Change tempColorKeeper to move on
 		}
 	}
+	
 	if (maxColumnCounter >= 3) {
 		maxColumnCounter = 0;
 		columnCounter = 0;

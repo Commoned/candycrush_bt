@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>734</width>
+    <width>824</width>
     <height>908</height>
    </rect>
   </property>
@@ -36,7 +36,7 @@
      </size>
     </property>
     <property name="cursor">
-     <cursorShape>OpenHandCursor</cursorShape>
+     <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="mouseTracking">
      <bool>true</bool>
@@ -54,27 +54,91 @@
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>620</y>
-      <width>75</width>
+      <width>181</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Start</string>
+     <string>Start Game</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="scoreLabel">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>620</y>
-      <width>271</width>
-      <height>21</height>
+      <x>630</x>
+      <y>40</y>
+      <width>161</width>
+      <height>51</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="scoreText">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>10</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Comic Sans MS</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Score:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timeText">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>90</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Time:</string>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdNumber">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>130</y>
+      <width>151</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>true</bool>
+    </property>
+    <property name="digitCount">
+     <number>5</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+    <property name="value" stdset="0">
+     <double>15.000000000000000</double>
     </property>
    </widget>
   </widget>
@@ -83,7 +147,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>734</width>
+     <width>824</width>
      <height>22</height>
     </rect>
    </property>
