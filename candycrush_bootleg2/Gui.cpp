@@ -65,6 +65,7 @@ void Gui::mainLoop()
 
     
     timerTick->stop();
+    timer->stop();
     ui.centralWidget->setCursor(Qt::CursorShape::WaitCursor);
     if(!click)
     {
