@@ -85,6 +85,12 @@ bool Steuerung::update()
 				string currentcolor = static_cast<Bubble*>(bubs[x][y])->getcol();
 				current->setcol("white");
 
+				if (bubblesY.size() > 0 && bubblesX.size() > 0 && bubblesX.size() + bubblesY.size() > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // Cross of Bubbles with more than 2 bubbles in x and y direction
+				{
+					delete static_cast<Bubble*>(bubs[x][y]);
+					createBubble(x, y, "purple"); // Create special bubble
+					static_cast<Special*>(bubs[x][y])->setability(bomb);
+				}
 				if (bubblesX.size() == 3 && bubblesY.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // 3 neighbours (4 bubbles of same color)
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
@@ -111,12 +117,7 @@ bool Steuerung::update()
 					static_cast<Special*>(bubs[x][y])->setability(colorbomb);
 					static_cast<Special*>(bubs[x][y])->setprevcolor(currentcolor);
 				}
-				if (bubblesY.size() > 0 && bubblesX.size() > 0 && bubblesX.size() + bubblesY.size() > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // Cross of Bubbles with more than 2 bubbles in x and y direction
-				{
-					delete static_cast<Bubble*>(bubs[x][y]);
-					createBubble(x, y, "purple"); // Create special bubble
-					static_cast<Special*>(bubs[x][y])->setability(bomb);
-				}
+				
 				
 				static_cast<Bubble*>(bubs[x][y])->setwasmoved(false);
 
