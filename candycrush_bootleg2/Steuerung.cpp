@@ -121,12 +121,12 @@ bool Steuerung::update()
 				static_cast<Bubble*>(bubs[x][y])->setwasmoved(false);
 
 				score++;
-				remTime = remTime + 0.2;
+				remTime = remTime + 0.05;
 			}
 		}
 	}
 
-	gui->updateView(bubs);
+	//gui->updateView(bubs);
 	//feld.drawField(bubs,score);
 	
 
@@ -140,9 +140,11 @@ bool Steuerung::update()
 			delete static_cast<Bubble*>(bubs[x][0]);
 			createBubble(x, 0,"");
 			fall(x);
-			//gui->updateView(bubs);
+			gui->updateView(bubs);
+			_sleep(100);
 			//feld.drawField(bubs, score);
 		}
+		
 	}
 	
 	analyze();
@@ -508,25 +510,25 @@ void Steuerung::fall(int col)
 bool Steuerung::checkRow(int y) {
 	string tempColorKepper = compArray[0][y];				//Set initial Color from Row
 	int rowCounter = 1;										//Set initial Rowcounters
-	int maxRowCounter = 0;
+	int maxRowCounter = 1;
 	for (int x = 1; x < 12; x++)
 	{
-		tempColorKepper = compArray[x-1][y];
 		if (tempColorKepper == compArray[x][y]) {			//If Purple should be included  "|| compArray[x][y] == "purple""
 			rowCounter++;
+			
 		}
-		if (tempColorKepper != compArray[x][y] || rowCounter>=3) {
-			if (rowCounter > maxRowCounter) {
-				maxRowCounter = rowCounter;
-				rowCounter = 1;
-			}
-						//Change tempColorKeeper to move on
+		if (rowCounter > maxRowCounter) {
+			maxRowCounter = rowCounter;
+			//rowCounter = 1;
+		}
+		if (tempColorKepper != compArray[x][y]) {
+			rowCounter = 1;
+			tempColorKepper = compArray[x][y];				//Change tempColorKeeper to move on
 		}
 	}
-	
 	if (maxRowCounter >= 3) {
-		maxRowCounter = 0;
-		rowCounter = 0;
+		maxRowCounter = 1;
+		rowCounter = 1;
 		return true;
 	}
 	else {
@@ -540,22 +542,21 @@ bool Steuerung::checkColumn(int x) {
 	int maxColumnCounter = 0;
 	for (int y = 1; y < 12; y++)
 	{
-		tempColorKepper = compArray[x][y-1];
-		if (tempColorKepper == compArray[x][y] || columnCounter>=3) {			//If purple should be included "|| compArray[x][y] == "purple""
+		if (tempColorKepper == compArray[x][y]) {			//If purple should be included "|| compArray[x][y] == "purple""
 			columnCounter++;
 		}
+		if (columnCounter > maxColumnCounter) {
+			maxColumnCounter = columnCounter;
+			//columnCounter = 1;
+		}
 		if (tempColorKepper != compArray[x][y]) {
-			if (columnCounter > maxColumnCounter) {
-				maxColumnCounter = columnCounter;
-				columnCounter = 1;
-			}
-						//Change tempColorKeeper to move on
+			columnCounter = 1;
+			tempColorKepper = compArray[x][y];				//Change tempColorKeeper to move on
 		}
 	}
-	
 	if (maxColumnCounter >= 3) {
 		maxColumnCounter = 0;
-		columnCounter = 0;
+		columnCounter = 1;
 		return true;
 	}
 	else {

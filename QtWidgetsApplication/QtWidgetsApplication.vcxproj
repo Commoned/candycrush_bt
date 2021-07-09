@@ -11,11 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4DCAFC64-9FD3-421B-9236-0A92EAB9980B}</ProjectGuid>
+    <ProjectGuid>{F2F25CF8-612E-4E61-BD18-02A6F47B454D}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
-    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.18362.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')"
+      >$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -31,17 +32,20 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.1.2_msvc2019_64</QtInstall>
+    <QtInstall>msvc19_6.2.0</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.1.2_msvc2019_64</QtInstall>
+    <QtInstall>msvc19_6.2.0</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
-  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
-    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  <Target Name="QtMsBuildNotFound"
+    BeforeTargets="CustomBuild;ClCompile"
+    Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High"
+      Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
   </Target>
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -58,20 +62,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-    </ClCompile>
-    <QtMoc>
-      <OverrideClCompile>replace</OverrideClCompile>
-    </QtMoc>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -99,21 +89,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bubble.cpp" />
-    <ClCompile Include="Special.cpp" />
-    <ClCompile Include="Steuerung.cpp" />
-    <QtRcc Include="Gui.qrc" />
-    <QtUic Include="Gui.ui" />
-    <QtMoc Include="Gui.h" />
-    <ClCompile Include="Feld.cpp" />
-    <ClCompile Include="Gui.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Bubble.h" />
-    <ClInclude Include="Feld.h" />
-    <ClInclude Include="Special.h" />
-    <ClInclude Include="Steuerung.h" />
+    <QtRcc Include="QtWidgetsApplication.qrc"/>
+    <QtUic Include="QtWidgetsApplication.ui"/>
+    <QtMoc Include="QtWidgetsApplication.h"/>
+    <ClCompile Include="QtWidgetsApplication.cpp"/>
+    <ClCompile Include="main.cpp"/>
+
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
