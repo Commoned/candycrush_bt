@@ -513,6 +513,7 @@ bool Steuerung::checkRow(int y) {
 	{
 		if (tempColorKepper == compArray[x][y]) {			//If Purple should be included  "|| compArray[x][y] == "purple""
 			rowCounter++;
+			
 		}
 		if (rowCounter > maxRowCounter) {
 			maxRowCounter = rowCounter;

@@ -114,6 +114,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Comic Sans MS</family>
       <pointsize>20</pointsize>
      </font>
     </property>
@@ -126,7 +127,7 @@
      <rect>
       <x>640</x>
       <y>130</y>
-      <width>71</width>
+      <width>101</width>
       <height>61</height>
      </rect>
     </property>
@@ -134,7 +135,7 @@
      <bool>true</bool>
     </property>
     <property name="digitCount">
-     <number>2</number>
+     <number>3</number>
     </property>
     <property name="segmentStyle">
      <enum>QLCDNumber::Flat</enum>
