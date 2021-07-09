@@ -77,7 +77,7 @@ void Gui::mainLoop()
         if (zug == 0)
         {
             static_cast<Steuerung*>(strg)->setscore(0);
-            static_cast<Steuerung*>(strg)->setremTime(20);
+            static_cast<Steuerung*>(strg)->setremTime(2000);
             zug++;
         }
         static_cast<Steuerung*>(strg)->update();
