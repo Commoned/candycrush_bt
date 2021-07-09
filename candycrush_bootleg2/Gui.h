@@ -20,6 +20,7 @@ public:
     void onaddWidget(void* bub, int x, int y);
 
     void onRemoveWidget();
+    
     void updateTimer();
     void endGame();
     void mainLoop();
@@ -42,7 +43,7 @@ public:
     QTimer* timer;
 
 private slots:
-  
+    
     
 
 private:

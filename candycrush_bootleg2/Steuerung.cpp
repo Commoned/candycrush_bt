@@ -121,12 +121,12 @@ bool Steuerung::update()
 				static_cast<Bubble*>(bubs[x][y])->setwasmoved(false);
 
 				score++;
-				remTime = remTime + 0.2;
+				remTime = remTime + 0.05;
 			}
 		}
 	}
 
-	gui->updateView(bubs);
+	//gui->updateView(bubs);
 	//feld.drawField(bubs,score);
 	
 
@@ -140,9 +140,11 @@ bool Steuerung::update()
 			delete static_cast<Bubble*>(bubs[x][0]);
 			createBubble(x, 0,"");
 			fall(x);
-			//gui->updateView(bubs);
+			gui->updateView(bubs);
+			_sleep(100);
 			//feld.drawField(bubs, score);
 		}
+		
 	}
 	
 	analyze();

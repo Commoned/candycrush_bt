@@ -10,6 +10,11 @@
     <height>908</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Comic Sans MS</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Gui</string>
   </property>
@@ -77,7 +82,7 @@
      <font>
       <family>Comic Sans MS</family>
       <pointsize>20</pointsize>
-      <bold>true</bold>
+      <bold>false</bold>
      </font>
     </property>
     <property name="text">
@@ -147,6 +152,43 @@
      <number>0</number>
     </property>
    </widget>
+   <widget class="QLabel" name="highText">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>200</y>
+      <width>161</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Highscore:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="highScore">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>240</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Comic Sans MS</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -154,7 +196,7 @@
      <x>0</x>
      <y>0</y>
      <width>824</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

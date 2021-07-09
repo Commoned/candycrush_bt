@@ -8,6 +8,7 @@
 #include "Steuerung.h"
 #include <qtimer.h>
 #include <qcursor.h>
+#include <qstring.h>
 
 
 Gui::Gui(QWidget *parent)
@@ -29,6 +30,7 @@ Gui::Gui(QWidget *parent)
 }
 
 
+
 void Gui::updateTimer()
 {
     //ui.timeLabel->setText(QString::number(timer->remainingTime() ));
@@ -45,7 +47,13 @@ void Gui::endGame()
     timer->stop();
     init = true;
     zug = 0;
+    int hiScroe = ui.highScore->text().toInt();
+    if (ui.highScore->text().toInt() < ui.scoreLabel->text().toInt())
+    {
+        ui.highScore->setText(ui.scoreLabel->text());
+    }
     ui.startButton->setDisabled(false);
+    delete static_cast<Steuerung*>(strg);
 }
 
 void Gui::mainLoop()
@@ -73,12 +81,12 @@ void Gui::mainLoop()
         while (clean == false)
         {
             clean = static_cast<Steuerung*>(strg)->update();
-
+            
         }
         if (zug == 0)
         {
             static_cast<Steuerung*>(strg)->setscore(0);
-            static_cast<Steuerung*>(strg)->setremTime(2000);
+            static_cast<Steuerung*>(strg)->setremTime(20);
             zug++;
         }
         static_cast<Steuerung*>(strg)->update();
