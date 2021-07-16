@@ -238,7 +238,7 @@ void Gui::updateView(void* bubs[12][12])
             }
             if (col == "yellow")
             {
-                pixmap.load("diamond.png");
+                pixmap.load("gold.png");
             }
             if (col == "red")
             {
