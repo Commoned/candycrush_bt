@@ -187,12 +187,14 @@ void Gui::onClickedWidget()
 
     if (!click)
     {
+        _beep(400,100);
         clickedX = (button->geometry().x() - 5) / 48;
         clickedY = (button->geometry().y() - 5) / 48;
         click = true;
         pressedMove = false;
     }
     else {
+        _beep(800, 100);
         clickedXM = (button->geometry().x() - 5) / 48;
         clickedYM = (button->geometry().y() - 5) / 48;
         pressedMove = true;
@@ -260,7 +262,6 @@ void Gui::updateView(void* bubs[12][12])
                     break;
                 case 4:pixmap.load("special.jpg");
                     break;
-
                 default:pixmap.load("special.jpg");
                     break;
                 }
