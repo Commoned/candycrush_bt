@@ -87,6 +87,7 @@ void Gui::mainLoop()
         clean = false;
         while (clean == false)
         {
+
             clean = static_cast<Controller*>(strg)->update();
             
         }
