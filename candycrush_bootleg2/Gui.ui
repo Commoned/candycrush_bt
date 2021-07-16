@@ -304,7 +304,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>special_bomb.jpg</pixmap>
+     <pixmap>TNT.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="label_9">

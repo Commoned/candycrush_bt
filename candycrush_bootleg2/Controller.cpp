@@ -110,13 +110,14 @@ bool Controller::update()
 					static_cast<Special*>(bubs[x][y])->setability(colorbomb);
 					static_cast<Special*>(bubs[x][y])->setprevcolor(currentcolor);
 				}
+				/*
 				if (bubblesY.size() > 0 && bubblesX.size() > 0 && (bubblesX.size() + bubblesY.size()) > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // Cross of Bubbles with more than 2 bubbles in x and y direction
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
 					createBubble(x, y, "purple"); // Create special bubble
 					static_cast<Special*>(bubs[x][y])->setability(bomb);
 				}
-				
+				*/
 				static_cast<Bubble*>(bubs[x][y])->setwasmoved(false);
 
 				score++;
