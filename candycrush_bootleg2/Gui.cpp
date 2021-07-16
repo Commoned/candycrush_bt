@@ -35,7 +35,7 @@ Gui::Gui(QWidget *parent)
 void Gui::updateTimer()
 {
     //ui.timeLabel->setText(QString::number(timer->remainingTime() ));
-    
+    ui.scoreLabel->setText(QString::number(static_cast<Controller*>(strg)->getScore()));
     double lcdValue = std::double_t(timer->remainingTime() / 1000);
     static_cast<Controller*>(strg)->setremTime(lcdValue);
     ui.lcdNumber->display(lcdValue);
@@ -96,7 +96,7 @@ void Gui::mainLoop()
             static_cast<Controller*>(strg)->setremTime(20);
             zug++;
         }
-        static_cast<Controller*>(strg)->update();
+        //static_cast<Controller*>(strg)->update();
     }
 
     if (static_cast<Bubble*>(static_cast<Controller*>(strg)->bubs[clickedX][clickedY])->getcol() != "purple" && pressed)
@@ -128,57 +128,6 @@ void Gui::mainLoop()
 
 
 /// <summary>
-/// Function creates Bubbles on Press of game start
-/// </summary>
-/// <param name="bub"></param>
-/// <param name="x"></param>
-/// <param name="y"></param>
-void Gui::onaddWidget(void* bub, int x , int y)
-{
-  
-    QPushButton* button = new QPushButton("",ui.frame);
-    QPixmap pixmap;
-    std::string col;
-
-    col = static_cast<Bubble*>(bub)->getcol();
-
-    if (col == "green")
-    {
-        pixmap.load("creeper.png");
-    }
-    if (col == "yellow")
-    {
-        pixmap.load("yellow.jpg");
-    }
-    if (col == "red")
-    {
-        pixmap.load("red.jpg");
-    }
-    if (col == "blue")
-    {
-        pixmap.load("blue.jpg");
-    }
-    if (col == "purple")
-    {
-        pixmap.load("special.jpg");
-    }
-    QIcon ButtonIcon(pixmap);
-
-    button->setIcon(ButtonIcon);
-    button->setStyleSheet("border:2px solid #ffffff;");
-    button->setFixedSize(QSize(48, 48));
-    button->setIconSize(pixmap.rect().size());
-
-    button->move(QPoint(x*48,y*48));
-
-    QObject::connect(button, &QPushButton::clicked, this, &Gui::onClickedWidget);
-    
-
-    button->show();
-
-}
-
-/// <summary>
 /// Saves which bubble(s) were pressed
 /// </summary>
 void Gui::onClickedWidget()
@@ -199,6 +148,7 @@ void Gui::onClickedWidget()
         clickedYM = (button->geometry().y() - 5) / 48;
         pressedMove = true;
         click = false;
+
     }
 
     pressed = true;
@@ -218,7 +168,9 @@ void Gui::updateView(void* bubs[12][12])
 
     for (auto it = list.begin(); it != list.end(); it++)
     {
+
         delete* it; // deletes all bubbles
+    
     }
  
     for (int x = 0; x < 12; x++) // creates all bubbles again // this causes flickering

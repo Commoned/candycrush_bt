@@ -17,7 +17,7 @@ public:
     Gui(QWidget* parent = Q_NULLPTR);
     
     
-    void onaddWidget(void* bub, int x, int y);
+   
 
     void onClickedWidget();
     

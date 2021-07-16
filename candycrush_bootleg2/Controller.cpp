@@ -22,7 +22,6 @@ Controller::Controller(Gui* ngui)
 		for (int x = 0; x < 12; x++)
 		{
 			createBubble(x, y, "b"); // b for beginning to place random special bubbles
-			
 		}
 	}
 }
@@ -58,7 +57,6 @@ void Controller::createBubble(int x, int y, string color)
 	else {												//creates simple bubble
 		bubs[x][y] = new Bubble(x, y, color);
 	}
-	gui->onaddWidget(bubs[x][y], x, y);
 }
 
 /// <summary>
@@ -68,7 +66,7 @@ void Controller::createBubble(int x, int y, string color)
 bool Controller::update()
 {
 	analyze();
-
+	
 	// Searches for bubbles that need to be destroyed and colors them white
 	for (int y = 11; y >= 0; y--)
 	{
@@ -149,7 +147,7 @@ bool Controller::update()
 	}
 	
 	analyze();
-
+	
 	for (int x = 0; x < 12; x++)
 	{
 		for (int y = 0; y < 12; y++)
