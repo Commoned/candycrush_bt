@@ -6,11 +6,8 @@
 #include <chrono>
 
 using std::mt19937;
-
 using std::string;
 using std::vector;
-
-
 
 Steuerung::Steuerung(Gui* ngui)
 {	
@@ -21,7 +18,7 @@ Steuerung::Steuerung(Gui* ngui)
 	{
 		for (int x = 0; x < 12; x++)
 		{
-			createBubble(x, y, "b"); // b for beginning to place random special bubbles
+			createBubble(x, y, "b");								//b for beginning to place random special bubbles
 			
 		}
 	}
@@ -32,33 +29,32 @@ Steuerung::Steuerung(Gui* ngui)
 /// Creates new Bubbles
 /// </summary>
 /// <param name="x"> x-coordinate</param>
-/// <param name="y">y- coordinate </param>
+/// <param name="y"> y-coordinate</param>
 /// <param name="color">color of the bubble (only needed for special bubbles)</param>
 void Steuerung::createBubble(int x, int y, string color)
 {
 	std::random_device random_dev;
-	mt19937 rng(random_dev()); // truly random function // cpp function rand() is based on seed and not truly random
+	mt19937 rng(random_dev());										// truly random function // cpp function rand() is based on seed and not truly random
 	std::uniform_int_distribution<int> distribution_1_4(0, 3);
 	std::uniform_int_distribution<int> distribution_1_100(1, 100);
 
-	if (color == "b") {									//to allow for deleted bubbles / empty spaces on field
+	if (color == "b") {												//to allow for deleted bubbles / empty spaces on field
 		color = colors[distribution_1_4(rng)];
 		if (distribution_1_100(rng) <= 2)
 		{
-			color = "purple";//5% Chance eine Special Bubble zu erstellen
+			color = "purple";										//2% Chance eine Special Bubble zu erstellen
 		}
 	}
-	if (color == "") {									//to allow for deleted bubbles / empty spaces on field
+	if (color == "") {												//to allow for deleted bubbles / empty spaces on field
 		color = colors[distribution_1_4(rng)];
 	}
 
-	if (color == "purple") {	
+	if (color == "purple") {										//creates special bubble
 		bubs[x][y] = new Special(x, y, "purple",rand()% 3+1);
 	}
-	else {												//creates simple bubble
+	else {															//creates simple bubble
 		bubs[x][y] = new Bubble(x, y, color);
 	}
-	gui->onaddWidget(bubs[x][y], x, y);
 }
 
 /// <summary>
@@ -80,18 +76,18 @@ bool Steuerung::update()
 			vector<void*> bubblesX = static_cast<Bubble*>(bubs[x][y])->getXneighbours();
 			vector<void*> bubblesY = static_cast<Bubble*>(bubs[x][y])->getYneighbours();
 
-			if (bubblesX.size() + bubblesY.size() >= 2 && (bubblesX.size()>=2 || bubblesY.size()>=2)) // Dreier Reihe (2 neighbours)
+			if (bubblesX.size() + bubblesY.size() >= 2 && (bubblesX.size()>=2 || bubblesY.size()>=2))															// Dreier Reihe (2 neighbours)
 			{
 				string currentcolor = static_cast<Bubble*>(bubs[x][y])->getcol();
 				current->setcol("white");
 
-				if (bubblesY.size() > 0 && bubblesX.size() > 0 && (bubblesX.size() + bubblesY.size()) > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // Cross of Bubbles with more than 2 bubbles in x and y direction
+				if (bubblesY.size() > 0 && bubblesX.size() > 0 && (bubblesX.size() + bubblesY.size()) > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved())	// Cross of Bubbles with more than 2 bubbles in x and y direction
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
 					createBubble(x, y, "purple"); // Create special bubble
 					static_cast<Special*>(bubs[x][y])->setability(bomb);
 				}
-				if (bubblesX.size() == 3 && bubblesY.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // 3 neighbours (4 bubbles of same color)
+				if (bubblesX.size() == 3 && bubblesY.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved())											// 3 neighbours (4 bubbles of same color)
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
 					createBubble(x, y, "purple"); // Create special bubble
@@ -127,11 +123,7 @@ bool Steuerung::update()
 		}
 	}
 
-	//gui->updateView(bubs);
-	//feld.drawField(bubs,score);
-	
-
-	//Drops Bubbles
+	//Drops Bubbles + deleting white bubbles
 	for(int x=0; x<12;x++)
 	{
 		fall(x);
@@ -143,9 +135,7 @@ bool Steuerung::update()
 			fall(x);
 			gui->updateView(bubs);
 			_sleep(50);
-			//feld.drawField(bubs, score);
 		}
-		
 	}
 	
 	analyze();
@@ -177,7 +167,7 @@ int Steuerung::checkValidInput(int x, int y, char direction)
 	int yInput = y;
 	int yMove = 0;
 
-	//Fill up comparisonArray with bubblecolors
+	//Fill up comparisonArray with bubble colors
 	string tempColor = "";
 	for (int x = 0; x < 12; x++)
 	{
@@ -187,6 +177,7 @@ int Steuerung::checkValidInput(int x, int y, char direction)
 		}
 	}
 
+	//If special bubble selected espace checkfunction
 	if (static_cast<Bubble*>(bubs[x][y])->getcol() == "purple")
 	{
 		return 1;
@@ -197,7 +188,7 @@ int Steuerung::checkValidInput(int x, int y, char direction)
 		return 0;
 	}
 
-	//Check if bubble would move out of array
+	//Check IF bubble would move out of array in every direction
 	//ELSE IFs makes move in comparison array
 	if (x == 0 && (direction == 'l' || direction == 'L')) {
 		return 0;
@@ -242,28 +233,12 @@ int Steuerung::checkValidInput(int x, int y, char direction)
 		return 1;
 	}
 
-
 	//Check Column
 	if (checkColumn(xInput) || checkColumn(xMove)) {
 		return 1;
 	}
 
 	return 0;
-}
-
-int Steuerung::getScore()
-{
-	return score;
-}
-
-double Steuerung::getremTime()
-{
-	return remTime;
-}
-
-void Steuerung::setremTime(double time)
-{
-	remTime = time;
 }
 
 /// <summary>
@@ -282,6 +257,7 @@ bool Steuerung::makemove(int x, int y, char input)
 		int isside = 1;
 		switch (ability)
 		{
+		//Destroypattern of bomb
 		case bomb:
 			static_cast<Bubble*>(bubs[x][y])->setcol("white");
 			if (x - 1 < 0) { isside = 0; }
@@ -308,16 +284,19 @@ bool Steuerung::makemove(int x, int y, char input)
 			if (x - 1 < 0 || y - 1 < 0) { isside = 0; }
 			static_cast<Bubble*>(bubs[x - isside][y - isside])->setcol("white");
 			break;
-		case lineH: // zeile 
+		//Destroypattern of row
+		case lineH: 
 			for (int forx = 0; forx < 12; forx++) {
 				static_cast<Bubble*>(bubs[forx][y])->setcol("white");
 			}
 			break;
-		case lineV: // spalte
+		//Destryopattern of column
+		case lineV: 
 			for (int fory = 0; fory < 12; fory++) {
 				static_cast<Bubble*>(bubs[x][fory])->setcol("white");
 			}
 			break;
+		//Destroypattern of colorbomb
 		case colorbomb:
 			for (int fory = 0; fory < 12; fory++)
 			{
@@ -337,7 +316,8 @@ bool Steuerung::makemove(int x, int y, char input)
 		return true;
 	}
 	else {
-		switch (input) // Checks if input is valid
+		//Moves bubbles
+		switch (input) 
 		{
 		case 'L':
 		case 'l':
@@ -378,6 +358,7 @@ bool Steuerung::makemove(int x, int y, char input)
 		return true;
 	}
 }
+
 /// <summary>
 /// Analizes field for combinations of Bubbles with the same color
 /// </summary>
@@ -398,7 +379,7 @@ void Steuerung::analyze()
 			if (x != 11)
 			{
 				z = check_neighbour(x, y, x + 1, y);
-				reihe = reihe + z; // nach rechts
+				reihe = reihe + z;	//to the right
 				
 				while (z > 0)
 				{
@@ -411,7 +392,7 @@ void Steuerung::analyze()
 			if (x != 0)
 			{
 				z = check_neighbour(x, y, x - 1, y);
-				reihe = reihe + z; // nach links
+				reihe = reihe + z;	//to the left
 
 				while (z > 0)
 				{
@@ -420,14 +401,14 @@ void Steuerung::analyze()
 				}
 				z = 0;
 			}
-			if (reihe == 2)// to stop corners with each 1 neighbour from being deleted
+			if (reihe == 2)			//to stop corners with each 1 neighbour from being deleted
 			{
 				reihe = 1;
 			}
 			if (y != 11)
 			{
 				z = check_neighbour(x, y, x, y + 1);
-				reihe = reihe + z; // nach unten
+				reihe = reihe + z;	//to the bottom
 				
 				while (z > 0)
 				{
@@ -439,7 +420,7 @@ void Steuerung::analyze()
 			if (y != 0)
 			{
 				z = check_neighbour(x, y, x, y - 1);
-				reihe = reihe + z; // nach nach oben
+				reihe = reihe + z;	//to the top
 
 				while (z > 0)
 				{
@@ -466,8 +447,9 @@ int Steuerung::check_neighbour(int xcur, int ycur, int xcheck, int ycheck)
 	int newcheckx = xcheck - xcur;
 	int newchecky = ycheck - ycur;
 	
-	if (static_cast<Bubble*>(bubs[xcur][ycur])->getcol() == static_cast<Bubble*>(bubs[xcheck][ycheck])->getcol() ){
-		if (xcheck + newcheckx <12 && ycheck + newchecky<12 && xcheck + newcheckx >= 0 && ycheck + newchecky >= 0)
+	if (static_cast<Bubble*>(bubs[xcur][ycur])->getcol() == static_cast<Bubble*>(bubs[xcheck][ycheck])->getcol() )
+	{
+		if (xcheck + newcheckx < 12 && ycheck + newchecky < 12 && xcheck + newcheckx >= 0 && ycheck + newchecky >= 0)
 		{
 
 			return 1 + check_neighbour(xcheck, ycheck, xcheck + newcheckx, ycheck + newchecky);
@@ -484,6 +466,7 @@ int Steuerung::check_neighbour(int xcur, int ycur, int xcheck, int ycheck)
 	}
 	return 0;
 }
+
 /// <summary>
 /// lets bubbles fall
 /// </summary>
@@ -518,9 +501,8 @@ bool Steuerung::checkRow(int y) {
 			rowCounter++;
 			
 		}
-		if (rowCounter > maxRowCounter) {
+		if (rowCounter > maxRowCounter) {				
 			maxRowCounter = rowCounter;
-			//rowCounter = 1;
 		}
 		if (tempColorKepper != compArray[x][y]) {
 			rowCounter = 1;
@@ -528,8 +510,6 @@ bool Steuerung::checkRow(int y) {
 		}
 	}
 	if (maxRowCounter >= 3) {
-		maxRowCounter = 1;
-		rowCounter = 1;
 		return true;
 	}
 	else {
@@ -548,7 +528,6 @@ bool Steuerung::checkColumn(int x) {
 		}
 		if (columnCounter > maxColumnCounter) {
 			maxColumnCounter = columnCounter;
-			//columnCounter = 1;
 		}
 		if (tempColorKepper != compArray[x][y]) {
 			columnCounter = 1;
@@ -556,8 +535,6 @@ bool Steuerung::checkColumn(int x) {
 		}
 	}
 	if (maxColumnCounter >= 3) {
-		maxColumnCounter = 0;
-		columnCounter = 1;
 		return true;
 	}
 	else {
@@ -565,8 +542,23 @@ bool Steuerung::checkColumn(int x) {
 	}
 }
 
-//getter and setter
-void Steuerung::setscore(int s)
+//Getter and Setter
+int Steuerung::getScore()
+{
+	return score;
+}
+
+void Steuerung::setScore(int s)
 {
 	score = s;
+}
+
+double Steuerung::getremTime()
+{
+	return remTime;
+}
+
+void Steuerung::setremTime(double time)
+{
+	remTime = time;
 }

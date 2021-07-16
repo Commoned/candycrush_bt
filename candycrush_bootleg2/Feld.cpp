@@ -10,6 +10,7 @@ using std::string;
 Feld::Feld()
 {
 }
+
 /// <summary>
 /// Draws the current field.
 /// </summary>
@@ -36,8 +37,8 @@ void Feld::drawField(void* bub[12][12], int score)
 	for (int y = 0; y < 12; y++)
 	{
 		for (int x = 0; x < 12; x++)
-		{ //If abfragen um die Farbe der jeweiligen Bubble abzufragen
-			
+		{ 
+				//If abfragen um die Farbe der jeweiligen Bubble abzufragen
 				if (static_cast<Bubble*>(bub[x][y])->getcol() == "blue")
 				{
 					k = 1;
@@ -82,6 +83,4 @@ void Feld::drawField(void* bub[12][12], int score)
 	}
 	SetConsoleTextAttribute(hConsole, 15);
 	std::cout << "Score: " << currScore << std::endl;
-	//std::chrono::milliseconds time(1);
-	//std::this_thread::sleep_for(time);
 }

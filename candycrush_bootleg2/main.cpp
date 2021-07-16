@@ -4,18 +4,16 @@
 #include "Feld.h"
 #include <qthread.h>
 
-
 int x, y;
 char input;
 
-
 int main(int argc, char *argv[])
 {
+	//Initialize GUI
 	QApplication a(argc, argv);
 	Gui gui;
 
 	gui.show();
 	a.processEvents();
 	return a.exec();
-
 }
