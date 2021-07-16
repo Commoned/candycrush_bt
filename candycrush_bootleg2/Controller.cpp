@@ -550,22 +550,22 @@ bool Controller::checkColumn(int x) {
 }
 
 //Getter and Setter
-int Steuerung::getScore()
+int Controller::getScore()
 {
 	return score;
 }
 
-void Steuerung::setScore(int s)
+void Controller::setScore(int s)
 {
 	score = s;
 }
 
-double Steuerung::getremTime()
+double Controller::getremTime()
 {
 	return remTime;
 }
 
-void Steuerung::setremTime(double time)
+void Controller::setremTime(double time)
 {
 	remTime = time;
 }
