@@ -32,7 +32,7 @@ public:
 	void analyze();
 	int check_neighbour(int xcur, int ycur, int xcheck, int ycheck);
 	void fall(int column);
-	void setscore(int s);
+	void setScore(int s);
 	bool checkRow(int y);
 	bool checkColumn(int x);
 	int checkValidInput(int x, int y, char direction);
