@@ -37,7 +37,7 @@ Steuerung::Steuerung(Gui* ngui)
 void Steuerung::createBubble(int x, int y, string color)
 {
 	std::random_device random_dev;
-	mt19937 rng(random_dev());
+	mt19937 rng(random_dev()); // truly random function // cpp function rand() is based on seed and not truly random
 	std::uniform_int_distribution<int> distribution_1_4(0, 3);
 	std::uniform_int_distribution<int> distribution_1_100(1, 100);
 
@@ -69,7 +69,7 @@ bool Steuerung::update()
 {
 	analyze();
 
-	// Sucht bubbles die wegfallen und faerbt sie weiss
+	// Searches for bubbles that need to be destroyed and colors them white
 	for (int y = 11; y >= 0; y--)
 	{
 		for (int x = 0; x < 12; x++)
@@ -85,7 +85,7 @@ bool Steuerung::update()
 				string currentcolor = static_cast<Bubble*>(bubs[x][y])->getcol();
 				current->setcol("white");
 
-				if (bubblesY.size() > 0 && bubblesX.size() > 0 && bubblesX.size() + bubblesY.size() > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // Cross of Bubbles with more than 2 bubbles in x and y direction
+				if (bubblesY.size() > 0 && bubblesX.size() > 0 && (bubblesX.size() + bubblesY.size()) > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // Cross of Bubbles with more than 2 bubbles in x and y direction
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
 					createBubble(x, y, "purple"); // Create special bubble
@@ -122,7 +122,7 @@ bool Steuerung::update()
 				static_cast<Bubble*>(bubs[x][y])->setwasmoved(false);
 
 				score++;
-				remTime = remTime + 0.05;
+				remTime = remTime + 0.1;
 			}
 		}
 	}

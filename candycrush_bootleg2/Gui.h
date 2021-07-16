@@ -19,7 +19,7 @@ public:
     
     void onaddWidget(void* bub, int x, int y);
 
-    void onRemoveWidget();
+    void onClickedWidget();
     
     void updateTimer();
     void endGame();
