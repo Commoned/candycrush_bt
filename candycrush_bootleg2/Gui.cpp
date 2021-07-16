@@ -212,7 +212,7 @@ void Gui::updateView(void* bubs[12][12])
                     break;
                 case 3:pixmap.load("chicken.png");
                     break;
-                case 4:pixmap.load("special_bomb.jpg");
+                case 4:pixmap.load("TNT.png");
                     break;
                 default:pixmap.load("special.jpg");
                     break;
