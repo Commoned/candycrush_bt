@@ -31,12 +31,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>msvc19_6.1.2</QtInstall>
+    <QtInstall>6.1.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>msvc19_6.1.2</QtInstall>
+    <QtInstall>6.1.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -101,7 +101,7 @@
   <ItemGroup>
     <ClCompile Include="Bubble.cpp" />
     <ClCompile Include="Special.cpp" />
-    <ClCompile Include="Steuerung.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <QtRcc Include="Gui.qrc" />
     <QtUic Include="Gui.ui" />
     <QtMoc Include="Gui.h" />
@@ -113,7 +113,7 @@
     <ClInclude Include="Bubble.h" />
     <ClInclude Include="Feld.h" />
     <ClInclude Include="Special.h" />
-    <ClInclude Include="Steuerung.h" />
+    <ClInclude Include="Controller.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

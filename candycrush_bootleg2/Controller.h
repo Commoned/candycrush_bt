@@ -6,7 +6,7 @@
 #include <vector>
 using std::vector;
 
-class Steuerung
+class Controller
 {
 private:
 	string colors[5] = {"red","yellow","blue","green","purple"};
@@ -26,7 +26,7 @@ public:
 	Feld feld;
 	Gui *gui;
 
-	Steuerung(Gui* gui);
+	Controller(Gui* gui);
 
 	void createBubble(int x, int y,string color = "white");
 	bool update();
