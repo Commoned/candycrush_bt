@@ -92,7 +92,7 @@ void Gui::mainLoop()
         }
         if (zug == 0)
         {
-            static_cast<Controller*>(strg)->setscore(0);
+            static_cast<Controller*>(strg)->setScore(0);
             static_cast<Controller*>(strg)->setremTime(20);
             zug++;
         }

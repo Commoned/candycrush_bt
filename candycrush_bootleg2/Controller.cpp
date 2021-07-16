@@ -249,21 +249,6 @@ int Controller::checkValidInput(int x, int y, char direction)
 	return 0;
 }
 
-int Controller::getScore()
-{
-	return score;
-}
-
-double Controller::getremTime()
-{
-	return remTime;
-}
-
-void Controller::setremTime(double time)
-{
-	remTime = time;
-}
-
 /// <summary>
 /// Makes move that was specified
 /// </summary>
@@ -564,7 +549,22 @@ bool Controller::checkColumn(int x) {
 }
 
 //getter and setter
-void Controller::setscore(int s)
+int Controller::getScore()
+{
+	return score;
+}
+
+void Controller::setScore(int s)
 {
 	score = s;
+}
+
+double Controller::getremTime()
+{
+	return remTime;
+}
+
+void Controller::setremTime(double time)
+{
+	remTime = time;
 }
