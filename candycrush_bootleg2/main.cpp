@@ -1,7 +1,6 @@
 #include "Gui.h"
 #include <QtWidgets/QApplication>
 #include <iostream>
-#include "Feld.h"
 #include <qthread.h>
 
 int x, y;

@@ -105,13 +105,11 @@
     <QtRcc Include="Gui.qrc" />
     <QtUic Include="Gui.ui" />
     <QtMoc Include="Gui.h" />
-    <ClCompile Include="Feld.cpp" />
     <ClCompile Include="Gui.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bubble.h" />
-    <ClInclude Include="Feld.h" />
     <ClInclude Include="Special.h" />
     <ClInclude Include="Controller.h" />
   </ItemGroup>

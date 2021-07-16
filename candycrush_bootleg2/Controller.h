@@ -1,7 +1,6 @@
 #pragma once
 #include "Bubble.h"
 #include "Special.h"
-#include "Feld.h"
 #include "Gui.h"
 #include <vector>
 using std::vector;
@@ -23,7 +22,6 @@ private:
 public:
 	void *bubs[12][12];
 	string compArray[12][12];
-	Feld feld;
 	Gui *gui;
 
 	Controller(Gui* gui);

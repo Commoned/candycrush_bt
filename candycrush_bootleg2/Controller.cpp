@@ -95,27 +95,27 @@ bool Controller::update()
 					createBubble(x, y, "purple"); // Create special bubble
 					static_cast<Special*>(bubs[x][y])->setability(lineH);
 				}
-				if (bubblesY.size() == 3 && bubblesX.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved())// 3 neighbours (4 bubbles of same color)
+				if (bubblesY.size() == 3 && bubblesX.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved())											// 3 neighbours (4 bubbles of same color)
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
 					createBubble(x, y, "purple"); // Create special bubble
 					static_cast<Special*>(bubs[x][y])->setability(lineV);
 				}
-				if (bubblesX.size() == 4 && bubblesY.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) //4 neighbours (5 bubbles of same color)
+				if (bubblesX.size() == 4 && bubblesY.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved())											// 4 neighbours (5 bubbles of same color)
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
 					createBubble(x, y, "purple"); // Create special bubble
 					static_cast<Special*>(bubs[x][y])->setability(colorbomb);
 					static_cast<Special*>(bubs[x][y])->setprevcolor(currentcolor);
 				}
-				if (bubblesY.size() == 4 && bubblesX.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) //4 neighbours (5 bubbles of same color)
+				if (bubblesY.size() == 4 && bubblesX.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved())											// 4 neighbours (5 bubbles of same color)
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
 					createBubble(x, y, "purple"); // Create special bubble
 					static_cast<Special*>(bubs[x][y])->setability(colorbomb);
 					static_cast<Special*>(bubs[x][y])->setprevcolor(currentcolor);
 				}
-				if (bubblesY.size() > 0 && bubblesX.size() > 0 && (bubblesX.size() + bubblesY.size()) > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // Cross of Bubbles with more than 2 bubbles in x and y direction
+				if (bubblesY.size() > 0 && bubblesX.size() > 0 && (bubblesX.size() + bubblesY.size()) > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved())	// Cross of Bubbles with more than 2 bubbles in x and y direction
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
 					createBubble(x, y, "purple"); // Create special bubble
