@@ -133,7 +133,7 @@ void Gui::onaddWidget(void* bub, int x , int y)
 
     if (col == "green")
     {
-        pixmap.load("green.jpg");
+        pixmap.load("creeper.png");
     }
     if (col == "yellow")
     {
@@ -217,19 +217,19 @@ void Gui::updateView(void* bubs[12][12])
 
             if (col == "green")
             {
-                pixmap.load("green.jpg");
+                pixmap.load("emerald.png");
             }
             if (col == "yellow")
             {
-                pixmap.load("yellow.jpg");
+                pixmap.load("diamond.png");
             }
             if (col == "red")
             {
-                pixmap.load("red.jpg");
+                pixmap.load("redstone.png");
             }
             if (col == "blue")
             {
-                pixmap.load("blue.jpg");
+                pixmap.load("lapislazuli.png");
             }
             if (col == "purple")
             {
@@ -237,13 +237,13 @@ void Gui::updateView(void* bubs[12][12])
                 abil = static_cast<Special*>(bubs[x][y])->getability();
                 switch (abil)
                 {
-                case 1:pixmap.load("special.jpg");
+                case 1:pixmap.load("creeper.png");
                     break;
-                case 2:pixmap.load("specialHbomb.jpg");
+                case 2:pixmap.load("enderman.png");
                     break;
-                case 3:pixmap.load("specialVbomb.jpg");
+                case 3:pixmap.load("chicken.png");
                     break;
-                case 4:pixmap.load("special.jpg");
+                case 4:pixmap.load("special_bomb.jpg");
                     break;
 
                 default:pixmap.load("special.jpg");

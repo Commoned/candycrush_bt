@@ -142,7 +142,7 @@ bool Steuerung::update()
 			createBubble(x, 0,"");
 			fall(x);
 			gui->updateView(bubs);
-			_sleep(100);
+			_sleep(50);
 			//feld.drawField(bubs, score);
 		}
 		
