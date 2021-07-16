@@ -46,7 +46,7 @@
     <ClCompile Include="Special.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Steuerung.cpp">
+    <ClCompile Include="Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Bubble.cpp">
@@ -63,7 +63,7 @@
     <ClInclude Include="Special.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Steuerung.h">
+    <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

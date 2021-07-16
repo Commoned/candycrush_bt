@@ -1,4 +1,4 @@
-﻿#include "Steuerung.h"
+﻿#include "Controller.h"
 #include <iostream>
 #include <vector>
 #include <random>
@@ -12,10 +12,10 @@ using std::vector;
 
 
 
-Steuerung::Steuerung(Gui* ngui)
+Controller::Controller(Gui* ngui)
 {	
 	gui = ngui;
-	// Steuerung creates Bubbles for array on creation
+	// Controller creates Bubbles for array on creation
 	score = 0;
 	for (int y = 0; y < 12; y++)
 	{
@@ -34,7 +34,7 @@ Steuerung::Steuerung(Gui* ngui)
 /// <param name="x"> x-coordinate</param>
 /// <param name="y">y- coordinate </param>
 /// <param name="color">color of the bubble (only needed for special bubbles)</param>
-void Steuerung::createBubble(int x, int y, string color)
+void Controller::createBubble(int x, int y, string color)
 {
 	std::random_device random_dev;
 	mt19937 rng(random_dev()); // truly random function // cpp function rand() is based on seed and not truly random
@@ -65,7 +65,7 @@ void Steuerung::createBubble(int x, int y, string color)
 /// Updates Field
 /// return value determines if the field has remaining combinations
 /// </summary>
-bool Steuerung::update()
+bool Controller::update()
 {
 	analyze();
 
@@ -84,13 +84,8 @@ bool Steuerung::update()
 			{
 				string currentcolor = static_cast<Bubble*>(bubs[x][y])->getcol();
 				current->setcol("white");
-
-				if (bubblesY.size() > 0 && bubblesX.size() > 0 && (bubblesX.size() + bubblesY.size()) > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // Cross of Bubbles with more than 2 bubbles in x and y direction
-				{
-					delete static_cast<Bubble*>(bubs[x][y]);
-					createBubble(x, y, "purple"); // Create special bubble
-					static_cast<Special*>(bubs[x][y])->setability(bomb);
-				}
+				
+				
 				if (bubblesX.size() == 3 && bubblesY.size() == 0 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // 3 neighbours (4 bubbles of same color)
 				{
 					delete static_cast<Bubble*>(bubs[x][y]);
@@ -117,7 +112,12 @@ bool Steuerung::update()
 					static_cast<Special*>(bubs[x][y])->setability(colorbomb);
 					static_cast<Special*>(bubs[x][y])->setprevcolor(currentcolor);
 				}
-				
+				if (bubblesY.size() > 0 && bubblesX.size() > 0 && (bubblesX.size() + bubblesY.size()) > 2 && static_cast<Bubble*>(bubs[x][y])->getwasmoved()) // Cross of Bubbles with more than 2 bubbles in x and y direction
+				{
+					delete static_cast<Bubble*>(bubs[x][y]);
+					createBubble(x, y, "purple"); // Create special bubble
+					static_cast<Special*>(bubs[x][y])->setability(bomb);
+				}
 				
 				static_cast<Bubble*>(bubs[x][y])->setwasmoved(false);
 
@@ -170,7 +170,7 @@ bool Steuerung::update()
 /// <param name="y"> y-cordinate of bubble </param>
 /// <param name="direction">Direction of move</param>
 /// <returns></returns>
-int Steuerung::checkValidInput(int x, int y, char direction)
+int Controller::checkValidInput(int x, int y, char direction)
 {
 	int xInput = x;
 	int xMove = 0;
@@ -251,17 +251,17 @@ int Steuerung::checkValidInput(int x, int y, char direction)
 	return 0;
 }
 
-int Steuerung::getScore()
+int Controller::getScore()
 {
 	return score;
 }
 
-double Steuerung::getremTime()
+double Controller::getremTime()
 {
 	return remTime;
 }
 
-void Steuerung::setremTime(double time)
+void Controller::setremTime(double time)
 {
 	remTime = time;
 }
@@ -273,7 +273,7 @@ void Steuerung::setremTime(double time)
 /// <param name="y"> y-cordinate of bubble </param>
 /// <param name="input"> Direction of move </param>
 /// <returns></returns>
-bool Steuerung::makemove(int x, int y, char input)
+bool Controller::makemove(int x, int y, char input)
 {
 	void* temp;
 	if (static_cast<Bubble*>(bubs[x][y])->getcol() == "purple")
@@ -381,7 +381,7 @@ bool Steuerung::makemove(int x, int y, char input)
 /// <summary>
 /// Analizes field for combinations of Bubbles with the same color
 /// </summary>
-void Steuerung::analyze()
+void Controller::analyze()
 {
 	int reihe=0;
 	vector<void*> neighboursX;
@@ -461,7 +461,7 @@ void Steuerung::analyze()
 /// <param name="xcheck">x-coordinate to check </param>
 /// <param name="ycheck">y-coordinate to check </param>
 /// <returns></returns>
-int Steuerung::check_neighbour(int xcur, int ycur, int xcheck, int ycheck)
+int Controller::check_neighbour(int xcur, int ycur, int xcheck, int ycheck)
 {
 	int newcheckx = xcheck - xcur;
 	int newchecky = ycheck - ycur;
@@ -488,7 +488,7 @@ int Steuerung::check_neighbour(int xcur, int ycur, int xcheck, int ycheck)
 /// lets bubbles fall
 /// </summary>
 /// <param name="col">column where Bubbles should fall</param>
-void Steuerung::fall(int col)
+void Controller::fall(int col)
 {
 	void* temp;
 	for (int f = 0; f < 12; f++)
@@ -508,7 +508,7 @@ void Steuerung::fall(int col)
 
 }
 
-bool Steuerung::checkRow(int y) {
+bool Controller::checkRow(int y) {
 	string tempColorKepper = compArray[0][y];				//Set initial Color from Row
 	int rowCounter = 1;										//Set initial Rowcounters
 	int maxRowCounter = 1;
@@ -537,7 +537,7 @@ bool Steuerung::checkRow(int y) {
 	}
 }
 
-bool Steuerung::checkColumn(int x) {
+bool Controller::checkColumn(int x) {
 	string tempColorKepper = compArray[x][0];				//Set initial Color from Row
 	int columnCounter = 1;									//Set initial Columncounters
 	int maxColumnCounter = 0;
@@ -566,7 +566,7 @@ bool Steuerung::checkColumn(int x) {
 }
 
 //getter and setter
-void Steuerung::setscore(int s)
+void Controller::setscore(int s)
 {
 	score = s;
 }

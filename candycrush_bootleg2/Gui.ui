@@ -11,7 +11,9 @@
    </rect>
   </property>
   <property name="font">
-   <font/>
+   <font>
+    <family>Comic Sans MS</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Gui</string>
@@ -158,6 +160,7 @@
     </property>
     <property name="font">
      <font>
+      <family>Comic Sans MS</family>
       <pointsize>20</pointsize>
      </font>
     </property>

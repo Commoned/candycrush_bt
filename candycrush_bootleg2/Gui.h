@@ -48,7 +48,7 @@ private slots:
 
 private:
     Ui::GuiClass ui;
-    //Steuerung* strg;
+    //Controller* strg;
     QEventLoop loop;
     
 };

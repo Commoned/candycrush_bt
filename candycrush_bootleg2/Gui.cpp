@@ -5,7 +5,7 @@
 #include <qevent.h>
 #include <qmimedata.h>
 #include <qdrag.h>
-#include "Steuerung.h"
+#include "Controller.h"
 #include <qtimer.h>
 #include <qcursor.h>
 #include <qstring.h>
@@ -37,9 +37,9 @@ void Gui::updateTimer()
     //ui.timeLabel->setText(QString::number(timer->remainingTime() ));
     
     double lcdValue = std::double_t(timer->remainingTime() / 1000);
-    static_cast<Steuerung*>(strg)->setremTime(lcdValue);
+    static_cast<Controller*>(strg)->setremTime(lcdValue);
     ui.lcdNumber->display(lcdValue);
-    //updateView(static_cast<Steuerung*>(strg)->bubs);
+    //updateView(static_cast<Controller*>(strg)->bubs);
 }
 
 /// <summary>
@@ -57,7 +57,7 @@ void Gui::endGame()
         ui.highScore->setText(ui.scoreLabel->text());
     }
     ui.startButton->setDisabled(false);
-    delete static_cast<Steuerung*>(strg);
+    delete static_cast<Controller*>(strg);
 }
 
 /// <summary>
@@ -67,7 +67,7 @@ void Gui::mainLoop()
 {
     if (init == true)
     {
-        strg = new Steuerung(this);
+        strg = new Controller(this);
         init = false;
         connect(timerTick, &QTimer::timeout, this, &Gui::updateTimer);
         ui.startButton->setDisabled(true);
@@ -87,19 +87,19 @@ void Gui::mainLoop()
         clean = false;
         while (clean == false)
         {
-            clean = static_cast<Steuerung*>(strg)->update();
+            clean = static_cast<Controller*>(strg)->update();
             
         }
         if (zug == 0)
         {
-            static_cast<Steuerung*>(strg)->setscore(0);
-            static_cast<Steuerung*>(strg)->setremTime(20);
+            static_cast<Controller*>(strg)->setscore(0);
+            static_cast<Controller*>(strg)->setremTime(20);
             zug++;
         }
-        static_cast<Steuerung*>(strg)->update();
+        static_cast<Controller*>(strg)->update();
     }
 
-    if (static_cast<Bubble*>(static_cast<Steuerung*>(strg)->bubs[clickedX][clickedY])->getcol() != "purple" && pressed)
+    if (static_cast<Bubble*>(static_cast<Controller*>(strg)->bubs[clickedX][clickedY])->getcol() != "purple" && pressed)
     {
         pressed = false;
     }
@@ -109,8 +109,8 @@ void Gui::mainLoop()
     if (clickedX - 1 == clickedXM   && clickedY == clickedYM){ input = 'L'; }
     if (clickedX + 1 == clickedXM && clickedY == clickedYM)  { input = 'R'; }
     
-    if (static_cast<Steuerung*>(strg)->checkValidInput(clickedX, clickedY, input) == 1 && pressedMove || static_cast<Bubble*>(static_cast<Steuerung*>(strg)->bubs[clickedX][clickedY])->getcol() == "purple" && click) {
-        static_cast<Steuerung*>(strg)->makemove(clickedX, clickedY, input);
+    if (static_cast<Controller*>(strg)->checkValidInput(clickedX, clickedY, input) == 1 && pressedMove || static_cast<Bubble*>(static_cast<Controller*>(strg)->bubs[clickedX][clickedY])->getcol() == "purple" && click) {
+        static_cast<Controller*>(strg)->makemove(clickedX, clickedY, input);
         click = false;
         pressedMove = false;
         
@@ -118,10 +118,10 @@ void Gui::mainLoop()
     }
     
     input = 'X';
-    static_cast<Steuerung*>(strg)->update();
-    static_cast<Steuerung*>(strg)->analyze();
+    static_cast<Controller*>(strg)->update();
+    static_cast<Controller*>(strg)->analyze();
    
-    timer->start(static_cast<Steuerung*>(strg)->getremTime() * 1000);
+    timer->start(static_cast<Controller*>(strg)->getremTime() * 1000);
     timerTick->start(10);
     ui.centralWidget->setCursor(Qt::CursorShape::ArrowCursor);
 }
@@ -281,7 +281,7 @@ void Gui::updateView(void* bubs[12][12])
 
             button->show();
 
-            ui.scoreLabel->setText(QString::number(static_cast<Steuerung*>(strg)->getScore())); 
+            ui.scoreLabel->setText(QString::number(static_cast<Controller*>(strg)->getScore())); 
             
             QCoreApplication::processEvents();
         }
