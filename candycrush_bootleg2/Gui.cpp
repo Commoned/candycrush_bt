@@ -5,7 +5,7 @@
 #include <qevent.h>
 #include <qmimedata.h>
 #include <qdrag.h>
-#include "Steuerung.h"
+#include "Controller.h"
 #include <qtimer.h>
 #include <qcursor.h>
 #include <qstring.h>
@@ -29,18 +29,22 @@ Gui::Gui(QWidget *parent)
     connect(timer, &QTimer::timeout, this, &Gui::endGame);
 }
 
-
-
+/// <summary>
+/// Tick timer to update actual game Timer
+/// </summary>
 void Gui::updateTimer()
 {
     //ui.timeLabel->setText(QString::number(timer->remainingTime() ));
     
     double lcdValue = std::double_t(timer->remainingTime() / 1000);
-    static_cast<Steuerung*>(strg)->setremTime(lcdValue);
+    static_cast<Controller*>(strg)->setremTime(lcdValue);
     ui.lcdNumber->display(lcdValue);
-    //updateView(static_cast<Steuerung*>(strg)->bubs);
+    //updateView(static_cast<Controller*>(strg)->bubs);
 }
 
+/// <summary>
+/// Function to end and restart the game
+/// </summary>
 void Gui::endGame()
 {
     ui.frame->setDisabled(true);
@@ -53,14 +57,17 @@ void Gui::endGame()
         ui.highScore->setText(ui.scoreLabel->text());
     }
     ui.startButton->setDisabled(false);
-    delete static_cast<Steuerung*>(strg);
+    delete static_cast<Controller*>(strg);
 }
 
+/// <summary>
+/// Main loop which was originally in main.cpp
+/// </summary>
 void Gui::mainLoop()
 {
     if (init == true)
     {
-        strg = new Steuerung(this);
+        strg = new Controller(this);
         init = false;
         connect(timerTick, &QTimer::timeout, this, &Gui::updateTimer);
         ui.startButton->setDisabled(true);
@@ -71,7 +78,7 @@ void Gui::mainLoop()
 
     bool clean = false;
 
-    
+
     timerTick->stop();
     timer->stop();
     ui.centralWidget->setCursor(Qt::CursorShape::WaitCursor);
@@ -80,30 +87,30 @@ void Gui::mainLoop()
         clean = false;
         while (clean == false)
         {
-            clean = static_cast<Steuerung*>(strg)->update();
+            clean = static_cast<Controller*>(strg)->update();
             
         }
         if (zug == 0)
         {
-            static_cast<Steuerung*>(strg)->setscore(0);
-            static_cast<Steuerung*>(strg)->setremTime(20);
+            static_cast<Controller*>(strg)->setscore(0);
+            static_cast<Controller*>(strg)->setremTime(20);
             zug++;
         }
-        static_cast<Steuerung*>(strg)->update();
+        static_cast<Controller*>(strg)->update();
     }
 
-    if (static_cast<Bubble*>(static_cast<Steuerung*>(strg)->bubs[clickedX][clickedY])->getcol() != "purple" && pressed)
+    if (static_cast<Bubble*>(static_cast<Controller*>(strg)->bubs[clickedX][clickedY])->getcol() != "purple" && pressed)
     {
         pressed = false;
     }
     
     if (clickedX == clickedXM && clickedY - 1 == clickedYM ) { input = 'U'; }
-    if (clickedX == clickedXM && clickedY + 1 == clickedYM) { input = 'D'; }
-    if (clickedX - 1 == clickedXM   && clickedY == clickedYM) { input = 'L'; }
-    if (clickedX + 1 == clickedXM && clickedY == clickedYM) { input = 'R'; }
+    if (clickedX == clickedXM && clickedY + 1 == clickedYM)  { input = 'D'; }
+    if (clickedX - 1 == clickedXM   && clickedY == clickedYM){ input = 'L'; }
+    if (clickedX + 1 == clickedXM && clickedY == clickedYM)  { input = 'R'; }
     
-    if (static_cast<Steuerung*>(strg)->checkValidInput(clickedX, clickedY, input) == 1 && pressedMove || static_cast<Bubble*>(static_cast<Steuerung*>(strg)->bubs[clickedX][clickedY])->getcol() == "purple" && click) {
-        static_cast<Steuerung*>(strg)->makemove(clickedX, clickedY, input);
+    if (static_cast<Controller*>(strg)->checkValidInput(clickedX, clickedY, input) == 1 && pressedMove || static_cast<Bubble*>(static_cast<Controller*>(strg)->bubs[clickedX][clickedY])->getcol() == "purple" && click) {
+        static_cast<Controller*>(strg)->makemove(clickedX, clickedY, input);
         click = false;
         pressedMove = false;
         
@@ -111,17 +118,21 @@ void Gui::mainLoop()
     }
     
     input = 'X';
-    
-    static_cast<Steuerung*>(strg)->analyze();
+    static_cast<Controller*>(strg)->update();
+    static_cast<Controller*>(strg)->analyze();
    
-    timer->start(static_cast<Steuerung*>(strg)->getremTime() * 1000);
+    timer->start(static_cast<Controller*>(strg)->getremTime() * 1000);
     timerTick->start(10);
     ui.centralWidget->setCursor(Qt::CursorShape::ArrowCursor);
 }
 
 
-
-
+/// <summary>
+/// Function creates Bubbles on Press of game start
+/// </summary>
+/// <param name="bub"></param>
+/// <param name="x"></param>
+/// <param name="y"></param>
 void Gui::onaddWidget(void* bub, int x , int y)
 {
   
@@ -133,7 +144,7 @@ void Gui::onaddWidget(void* bub, int x , int y)
 
     if (col == "green")
     {
-        pixmap.load("green.jpg");
+        pixmap.load("creeper.png");
     }
     if (col == "yellow")
     {
@@ -160,28 +171,30 @@ void Gui::onaddWidget(void* bub, int x , int y)
 
     button->move(QPoint(x*48,y*48));
 
-    QObject::connect(button, &QPushButton::clicked, this, &Gui::onRemoveWidget);
+    QObject::connect(button, &QPushButton::clicked, this, &Gui::onClickedWidget);
     
 
     button->show();
 
-    
-
 }
 
-
-void Gui::onRemoveWidget()
+/// <summary>
+/// Saves which bubble(s) were pressed
+/// </summary>
+void Gui::onClickedWidget()
 {
     QPushButton* button = qobject_cast<QPushButton*>(sender());
 
     if (!click)
     {
+        _beep(400,100);
         clickedX = (button->geometry().x() - 5) / 48;
         clickedY = (button->geometry().y() - 5) / 48;
         click = true;
         pressedMove = false;
     }
     else {
+        _beep(800, 100);
         clickedXM = (button->geometry().x() - 5) / 48;
         clickedYM = (button->geometry().y() - 5) / 48;
         pressedMove = true;
@@ -195,41 +208,45 @@ void Gui::onRemoveWidget()
 }
 
 
-
+/// <summary>
+/// updates Field
+/// </summary>
+/// <param name="bubs"></param>
 void Gui::updateView(void* bubs[12][12])
 {
-    QObjectList list = ui.frame->children();
-    
+    QObjectList list = ui.frame->children(); // gets all Bubbles currently in frame
+
     for (auto it = list.begin(); it != list.end(); it++)
     {
-        delete *it;
+        delete* it; // deletes all bubbles
     }
-
-    for (int x = 0; x < 12; x++)
+ 
+    for (int x = 0; x < 12; x++) // creates all bubbles again // this causes flickering
     {
         for (int y = 0; y < 12; y++)
         {
+            
             QPushButton* button = new QPushButton("", ui.frame);
             QPixmap pixmap;
             std::string col;
 
             col = static_cast<Bubble*>(bubs[x][y])->getcol();
-
-            if (col == "green")
+            //Setting of icons based on bubble color
+            if (col == "green") 
             {
-                pixmap.load("green.jpg");
+                pixmap.load("emerald.png");
             }
             if (col == "yellow")
             {
-                pixmap.load("yellow.jpg");
+                pixmap.load("gold.png");
             }
             if (col == "red")
             {
-                pixmap.load("red.jpg");
+                pixmap.load("redstone.png");
             }
             if (col == "blue")
             {
-                pixmap.load("blue.jpg");
+                pixmap.load("lapislazuli.png");
             }
             if (col == "purple")
             {
@@ -237,15 +254,14 @@ void Gui::updateView(void* bubs[12][12])
                 abil = static_cast<Special*>(bubs[x][y])->getability();
                 switch (abil)
                 {
-                case 1:pixmap.load("special.jpg");
+                case 1:pixmap.load("creeper.png");
                     break;
-                case 2:pixmap.load("specialHbomb.jpg");
+                case 2:pixmap.load("enderman.png");
                     break;
-                case 3:pixmap.load("specialVbomb.jpg");
+                case 3:pixmap.load("chicken.png");
                     break;
-                case 4:pixmap.load("special.jpg");
+                case 4:pixmap.load("special_bomb.jpg");
                     break;
-
                 default:pixmap.load("special.jpg");
                     break;
                 }
@@ -253,7 +269,7 @@ void Gui::updateView(void* bubs[12][12])
             }
             QIcon ButtonIcon(pixmap);
 
-            button->setIcon(ButtonIcon);
+            button->setIcon(ButtonIcon); 
             button->setStyleSheet("border:2px solid #ffffff;");
             button->setFixedSize(QSize(48, 48));
             button->setIconSize(pixmap.rect().size());
@@ -261,11 +277,11 @@ void Gui::updateView(void* bubs[12][12])
 
             button->move(QPoint((x * 48)+5, (y * 48)+5));
 
-            QObject::connect(button, &QPushButton::clicked, this, &Gui::onRemoveWidget);
+            QObject::connect(button, &QPushButton::clicked, this, &Gui::onClickedWidget); // connects new bubbles to the removewidget function
 
             button->show();
 
-            ui.scoreLabel->setText(QString::number(static_cast<Steuerung*>(strg)->getScore())); 
+            ui.scoreLabel->setText(QString::number(static_cast<Controller*>(strg)->getScore())); 
             
             QCoreApplication::processEvents();
         }
